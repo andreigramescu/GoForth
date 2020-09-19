@@ -1,5 +1,6 @@
 A Forth interpreter and runtime written in C by Liam Gallagher and Andrei Gramescu.
 
+-------------------------------------------------------------------------------------------------
 MIT License
 
 Copyright (c) 2020 Liam Gallagher and Andrei Gramescu
