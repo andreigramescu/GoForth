@@ -38,15 +38,16 @@ Trie *Trie_create(void)
     return (Trie *) trie;
 }
 
-void Trie_destroy(Trie *trie)
+void Trie_destroy(Trie *trie, Trie_destruction_function func)
 {
     assert(trie != NULL); 
     struct trie_node *curr = trie;
     unsigned char nchildren = get_nchildren(curr->bitfield[0], curr->bitfield[1]);
     for(size_t i = 0; i < (uint64_t)nchildren; i++ )
     {
-        Trie_destroy(curr->children[i]);
+        Trie_destroy(curr->children[i], func);
     }
+    func(curr->value);
     free(curr->children);
     free(curr);
 }

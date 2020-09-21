@@ -2,6 +2,10 @@
 #include "test.h"
 
 #include "trie.h"
+
+
+void dud(void *v) { }
+
 int main(void)
 {
     Trie *trie = Trie_create();  
@@ -38,6 +42,6 @@ int main(void)
     intrie = Trie_get(trie, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+,./;'[]\\<>?:\"{}|", &val);
     test_bool(val == (void *) 9 && intrie == true, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+,./;'[]\\<>?:\"{}| is in the trie");
     
-    Trie_destroy(trie);
+    Trie_destroy(trie, dud);
     return 0;
 }
