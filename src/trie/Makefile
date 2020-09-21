@@ -1,6 +1,6 @@
 CC     = gcc
-CFLAGS = -std=c99 -pedantic -Werror -Wall -g -I./../testing/
-LDLIBS = -L./../testing/ -ltestlib
+CFLAGS = -std=c99 -pedantic -Werror -Wall -g -I./../../test/
+LDLIBS = -L./../../test/ -ltest
 BUILD  = trie.o
 
 .PHONY: all clean test test-full test_utils
@@ -9,16 +9,16 @@ all: $(BUILD)
 
 clean:
 	/bin/rm -rf *.o trie_tests
-	cd ./../testing; /bin/rm *.o *.a
+	cd ./../../test; /bin/rm *.o *.a
 
-test: trie_tests test_utils
+test: test_utils trie_tests
 	./trie_tests
 
 test-full: trie_tests test_utils
 	valgrind ./trie_tests
 
 test_utils:
-	cd ./../testing; make
+	cd ./../../test; make
 
 trie.o: trie.h
 
