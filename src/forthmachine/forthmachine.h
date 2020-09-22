@@ -22,4 +22,8 @@ bool ForthMachine_init(struct forth_machine *fmach);
 
 void ForthMachine_deinit(struct forth_machine *fmach);
 
+bool ForthMachine_load_program(struct forth_machine *fmach, const char *program);
+
+enum error_code ForthMachine_run_program(struct forth_machine);
+
 #endif /* FORTHMACHINE_H */
