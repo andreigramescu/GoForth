@@ -7,10 +7,8 @@
 #include "forthmachine.h"
 
 int main(void) {
-  struct forth_machine random; 
-  struct forth_machine *fmach = &random; 
-  bool isInit = ForthMachine_init(fmach); 
-  if (!isInit) {
+  struct forth_machine *fmach = forth_machine_init(); 
+  if (fmach == NULL) {
     perror("Could not allocate forthmachine");
     return 1;
   }
@@ -20,7 +18,6 @@ int main(void) {
   ForthStack_append(&(fmach->stack), 8);
   fmach->program_words = make_words_array("90 34", 2);
 
-  printf("%lu", ForthStack_length(fmach->stack));
   test_bool(ForthStack_length(fmach->stack) == 2, "stack size is initially 2");
   word_number(fmach);
   test_bool(ForthStack_length(fmach->stack) == 3, "stack size has grown by 1 after appending a number");

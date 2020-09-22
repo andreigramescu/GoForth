@@ -3,27 +3,14 @@
 
 #include <stdbool.h>
 
-#include "trie.h"
-#include "forthstack.h"
-#include "parser.h"
+#include "common.h"
 
+struct forth_machine *forth_machine_init();
 
-struct forth_machine
-{
-    Trie *words;
-    Trie *variables;
-    ForthStack *stack;    
-    char **program_words;
-    size_t n_program_words;
-    size_t program_counter;
-};
+void forth_machine_deinit(struct forth_machine *fmach);
 
-bool ForthMachine_init(struct forth_machine *fmach);
+bool forth_machine_load_program(struct forth_machine *fmach, const char *program);
 
-void ForthMachine_deinit(struct forth_machine *fmach);
-
-bool ForthMachine_load_program(struct forth_machine *fmach, const char *program);
-
-enum error_code ForthMachine_run_program(struct forth_machine);
+enum error_code forth_machine_run_program(struct forth_machine);
 
 #endif /* FORTHMACHINE_H */

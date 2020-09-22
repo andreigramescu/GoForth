@@ -1,15 +1,7 @@
 #ifndef NATIVEWORDS_H
 #define NATIVEWORDS_H
 
-#include "forthmachine.h"
-
-enum error_code {
-  EXECUTE_OK,
-};
-
-typedef enum error_code (*word_execution)(struct forth_machine *fmach);
-
-#define WORD_FUNCTION_DECLARATION(name) enum error_code word_##name(struct forth_machine *fmach)
+#include "common.h"
 
 WORD_FUNCTION_DECLARATION(number);
 WORD_FUNCTION_DECLARATION(dup);

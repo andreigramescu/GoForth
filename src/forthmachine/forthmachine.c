@@ -3,6 +3,7 @@
 #include <malloc.h>
 #include <assert.h>
 
+#include "common.h"
 #include "trie.h"
 #include "forthstack.h"
 
