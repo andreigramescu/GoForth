@@ -1,6 +1,7 @@
 #ifndef NATIVEWORDS_H
 #define NATIVEWORDS_H
 
+#include "forthmachine.h"
 
 enum error_code {
   EXECUTE_OK,
