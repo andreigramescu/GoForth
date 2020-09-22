@@ -30,11 +30,12 @@ bool ForthMachine_init(struct forth_machine *fmach)
         return false;
     }
     fmach->words = words;
+    // TODO: populate this trie  
     fmach->variables = variables;
     fmach->stack = stack;
     fmach->program_words = NULL;
     fmach->n_program_words = 0;
-    fmach->program_words = 0;
+    fmach->program_counter = 0
     return true;   
 }
 
@@ -50,5 +51,15 @@ void ForthMachine_deinit(struct forth_machine *fmach)
     }
 }
 
+bool ForthMachine_load_program(struct forth_machine *fmach, const char *program)
+{
+    assert(fmach != NULL && program != NULL);  
+    fmach->n_program_words = num_words(program);
+    fmach->program_words = make_words_array(program, fmach->n_program_words);
+    fmach->program_counter = 0;
+    return fmach->program_words != NULL;
+}
+
+enum error_code ForthMachine_run_program(struct forth_machine);
 
 
