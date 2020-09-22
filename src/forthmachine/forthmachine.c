@@ -8,19 +8,8 @@
 
 #define INITIAL_STACK_SIZE 128
 
-struct forth_machine
+bool ForthMachine_init(struct forth_machine *fmach)
 {
-    Trie *words;
-    Trie *variables;
-    ForthStack *stack;    
-    char **program_words;
-    size_t n_program_words;
-    size_t program_counter;
-};
-
-bool ForthMachine_init(ForthMachine *forth_machine)
-{
-    struct forth_machine *fmach = (struct forth_machine *) forth_machine;
     assert(fmach != NULL);
     Trie *words = Trie_create();
     if(words == NULL)
@@ -49,14 +38,16 @@ bool ForthMachine_init(ForthMachine *forth_machine)
     return true;   
 }
 
-void ForthMachine_deinit(ForthMachine *forth_machine)
+void ForthMachine_deinit(struct forth_machine *fmach)
 {
-    struct forth_machine *fmach = (struct forth_machine *) forth_machine;
     assert(fmach != NULL);
     Trie_destroy(fmach->words, free);
     Trie_destroy(fmach->variables, free);
     ForthStack_destroy(fmach->stack);
-    // TODO: how to handle fmach->program_words?
+    if(fmach->program_words == NULL)
+    { 
+        destroy_words_array(fmach->program_words, fmach->n_program_words);
+    }
 }
 
 
