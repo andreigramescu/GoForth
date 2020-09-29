@@ -14,7 +14,7 @@ all: nativewords.o forthmachine.o
 
 clean:
 	/bin/rm -rf *.o nativewords_tests
-	cd ../../test; /bin/rm *.o *.a
+	cd ../../test; make clean
 
 test: test_utils nativewords_tests 
 	./nativewords_tests

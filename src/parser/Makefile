@@ -8,7 +8,7 @@ all: parser.o
 
 clean:
 	/bin/rm -rf *.o parser_tests
-	cd ./../../test; /bin/rm *.o *.a
+	cd ./../../test; make clean	
 
 test: test_utils parser_tests
 	./parser_tests

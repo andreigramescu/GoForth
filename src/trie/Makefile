@@ -9,7 +9,7 @@ all: $(BUILD)
 
 clean:
 	/bin/rm -rf *.o trie_tests
-	cd ./../../test; /bin/rm *.o *.a
+	cd ./../../test; make clean
 
 test: test_utils trie_tests
 	./trie_tests
