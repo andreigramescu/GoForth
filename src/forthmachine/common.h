@@ -23,8 +23,10 @@ struct forth_machine
 enum error_code {
   EXECUTE_OK,
   STACK_EMPTY,
+  STACK_RESIZE_FAIL,
   UNDEFINED_WORD,
   UNKNOWN_VARIABLE,
+  MALFORMED_VARIABLE_TRIE,
 };
 
 enum forth_variable_type {

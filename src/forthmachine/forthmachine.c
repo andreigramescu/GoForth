@@ -97,18 +97,7 @@ enum error_code forth_machine_run_program(struct forth_machine *fmach)
         bool in_trie = Trie_get(fmach->words, curr_word, (void **) &data);
         if(!in_trie) 
         {
-            struct forth_variable *fdata;
-            in_trie = Trie_get(fmach->variables, curr_word, (void **) &fdata);
-            if (in_trie) {
-                if (fdata->type == FORTH_VARIABLE_VALUE) {
-                    // value
-                     
-                } if (fdata->type == FORTH_VARIABLE_ARR) {
-                    // arr
-                }
-            } else {
-                word_number(fmach);
-            }
+            word_not_in_trie(fmach);
         }// what if variable?
         else if(data->is_native)
         {

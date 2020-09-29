@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <assert.h>
 #include <inttypes.h>
 #include "nativewords.h"
 #include "forthmachine.h"
@@ -112,4 +113,36 @@ enum error_code word_dot_s(struct forth_machine *fmach) {
     putchar('\n');
   }
   return EXECUTE_OK;
+}
+
+enum error_code word_not_in_trie(struct forth_machine *fmach) {
+  
+  char *curr_word = get_curr_word(fmach);
+  struct forth_variable *fdata;
+  bool in_trie = Trie_get(fmach->variables, curr_word, (void **) &fdata);
+  if (in_trie) {
+    bool append_ok = false;
+    switch (fdata->type) {
+      case FORTH_VARIABLE_VALUE: { 
+        append_ok = ForthStack_append(&(fmach->stack), (void *) &(fdata->data.variable));
+        if (!append_ok) {
+          return STACK_RESIZE_FAIL;
+        }
+        return EXECUTE_OK;
+      }
+      case FORTH_VARIABLE_ARR: {
+        append_ok = ForthStack_append(&(fmach->stack), (void *) fdata->data.arr);
+        if (!append_ok) {
+          return STACK_RESIZE_FAIL;
+        }
+        return EXECUTE_OK;
+      }
+      default: {  
+        assert(false);
+        return MALFORMED_VARIABLE_TRIE; 
+      }
+    }
+  } else {
+      return word_number(fmach);
+  }
 }
