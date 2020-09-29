@@ -80,6 +80,6 @@ enum error_code word_dot_s(struct forth_machine *fmach) {
   for (int i = 0; i < ForthStack_length(fmach->stack); i++) {
     printf("%ld ", ForthStack_get(fmach->stack, i));
   }
-  puts("\n");
+  putchar('\n');
   return EXECUTE_OK;
 }

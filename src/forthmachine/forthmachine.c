@@ -12,7 +12,7 @@
 
 static bool init_word_trie(Trie *words);
 
-static bool add_native_word(Trie *words, const char *word, word_execution native_funtion);
+static bool add_native_word(Trie *words, const char *word, word_execution native_function);
 
 struct forth_machine *forth_machine_init()
 {
@@ -134,18 +134,20 @@ static bool init_word_trie(Trie *words)
     add_success = 
         add_success && add_native_word(words, ".", WORD_FUNCTION_ADDRESS(dot));
     add_success = 
-        add_success && add_native_word(words, "..", WORD_FUNCTION_ADDRESS(dots));
+        add_success && add_native_word(words, ".s", WORD_FUNCTION_ADDRESS(dot_s));
 
     return add_success;
 }
 
-static bool add_native_word(Trie *words, const char *word, word_execution native_funtion)
+static bool add_native_word(Trie *words, const char *word, word_execution native_function)
 {
     struct word_data *data = (struct word_data *) malloc(sizeof(struct word_data));
     if(data == NULL)
     {
         return false;
     }
+    data->is_native = true;
+    data->word_function.native_function = native_function;
     return Trie_add(words, word, (void *) data);
 }
 
