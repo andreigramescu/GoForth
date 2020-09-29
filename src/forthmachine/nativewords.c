@@ -1,9 +1,12 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <inttypes.h>
+#include <string.h>
+
 #include "nativewords.h"
 #include "forthmachine.h"
 #include "forthstack.h"
+
 
 static char *get_curr_word(struct forth_machine *fmach) {
   return fmach->program_words[fmach->program_counter];
@@ -145,4 +148,40 @@ enum error_code word_not_in_trie(struct forth_machine *fmach) {
   } else {
       return word_number(fmach);
   }
+}
+
+enum error_code word_colon(struct forth_machine *fmach) {
+    fmach->program_counter++;
+    if(fmach->program_counter >= fmach->n_program_words) {
+        return WORD_DEFINITION_UNTERMINATED; 
+    }
+    struct word_data *data = (struct word_data *) malloc(sizeof(struct word_data));
+    data->is_native = false;
+    data->word_function.program_counter = fmach->program_counter;
+    /* TODO: consider if a word is redifined, the void * 
+    ** will be changed and a memory leak will be caused! fix l8r */
+    bool add_success = Trie_add(
+                        fmach->words,
+                        fmach->program_words[fmach->program_counter], 
+                        (void *) data);
+    if(!add_success) {
+        return STACK_RESIZE_FAIL;
+    }
+
+    do {
+        fmach->program_counter++;
+        if(fmach->program_counter >= fmach->n_program_words) {
+            return WORD_DEFINITION_UNTERMINATED; 
+        }
+    } while(strcmp(fmach->program_words[fmach->program_counter], ";") != 0);
+    return EXECUTE_OK; 
+}
+
+enum error_code word_semi_colon(struct forth_machine *fmach) {
+    size_t rstack_length = ReturnStack_length(fmach->return_stack);
+    if(rstack_length == 0) {
+         return SEMI_COLON_BEFORE_DEFINITION; 
+    }
+    fmach->program_counter = ReturnStack_get(fmach->return_stack, rstack_length - 1);  
+    return EXECUTE_OK;
 }

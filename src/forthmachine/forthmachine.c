@@ -53,7 +53,7 @@ struct forth_machine *forth_machine_init()
         ForthStack_destroy(stack);
         return NULL;
     }
-    ReturnStack_adjust_length(&stack, 0);
+    ReturnStack_adjust_length(&return_stack, 0);
 
     fmach->words = words;
     // TODO: populate this trie  
@@ -106,8 +106,8 @@ enum error_code forth_machine_run_program(struct forth_machine *fmach)
         }
         else
         {
+            ReturnStack_append(&fmach->return_stack, fmach->program_counter);
             fmach->program_counter = data->word_function.program_counter;
-            ReturnStack_append(&fmach->return_stack, fmach->program_counter + 1);
         }
         fmach->program_counter++;
     }
@@ -135,7 +135,10 @@ static bool init_word_trie(Trie *words)
         add_success && add_native_word(words, ".", WORD_FUNCTION_ADDRESS(dot));
     add_success = 
         add_success && add_native_word(words, ".s", WORD_FUNCTION_ADDRESS(dot_s));
-
+    add_success = 
+        add_success && add_native_word(words, ":", WORD_FUNCTION_ADDRESS(colon));
+    add_success = 
+        add_success && add_native_word(words, ";", WORD_FUNCTION_ADDRESS(semi_colon));
     return add_success;
 }
 
