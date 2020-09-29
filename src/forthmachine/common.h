@@ -27,6 +27,19 @@ enum error_code {
   UNKNOWN_VARIABLE,
 };
 
+enum forth_variable_type {
+    FORTH_VARIABLE_VALUE,
+    FORTH_VARIABLE_ARR,
+};
+
+struct forth_variable {
+    union {
+        int64_t variable;
+        int64_t *arr;
+    } data;
+    enum forth_variable_type type;
+};
+
 typedef enum error_code (*word_execution)(struct forth_machine *fmach);
 
 struct word_data

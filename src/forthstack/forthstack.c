@@ -8,11 +8,11 @@ struct forth_stack
 {
     size_t length;
     size_t size;
-    int64_t arr[1];
+    void *arr[1];
 };
 
 
-bool ForthStack_append(ForthStack **darr, int64_t val)
+bool ForthStack_append(ForthStack **darr, void *val)
 {
     struct forth_stack *dynarray = (struct forth_stack *) *darr;
     assert(dynarray != NULL);
@@ -35,7 +35,7 @@ void ForthStack_destroy(ForthStack *dynarray)
     free(dynarray);
 }
 
-bool ForthStack_insert(ForthStack **darr, int64_t val, size_t index)
+bool ForthStack_insert(ForthStack **darr, void *val, size_t index)
 {
     struct forth_stack *dynarray = (struct forth_stack *) *darr;
     assert(dynarray != NULL && index <= dynarray->length);
@@ -90,28 +90,28 @@ bool ForthStack_resize(ForthStack **darr, size_t size)
     return true;
 }
 
-int64_t *ForthStack_arr(ForthStack *darr)
+void **ForthStack_arr(ForthStack *darr)
 {
     struct forth_stack *dynarray = (struct forth_stack *) darr;
     assert(dynarray != NULL);   
     return dynarray->arr;
 }
 
-int64_t ForthStack_get(ForthStack *darr, size_t index)
+void *ForthStack_get(ForthStack *darr, size_t index)
 {
     struct forth_stack *dynarray = (struct forth_stack *) darr;
     assert(dynarray != NULL && index < dynarray->length);   
     return dynarray->arr[index];
 }
 
-int64_t *ForthStack_get_arr_reference(ForthStack *darr, size_t index)
+void **ForthStack_get_arr_reference(ForthStack *darr, size_t index)
 {
     struct forth_stack *dynarray = (struct forth_stack *) darr;
     assert(dynarray != NULL && index < dynarray->length);   
     return &dynarray->arr[index];  
 }
 
-void ForthStack_set(ForthStack *darr, size_t index, int64_t val)
+void ForthStack_set(ForthStack *darr, size_t index, void *val)
 {
     struct forth_stack *dynarray = (struct forth_stack *) darr;
     assert(dynarray != NULL && index < dynarray->length);   
@@ -133,7 +133,7 @@ bool ForthStack_adjust_length(ForthStack **darr, size_t length)
     return true;
 }
 
-bool ForthStack_insert_array(ForthStack **darr, size_t start_index, int64_t *arr, size_t arr_length)
+bool ForthStack_insert_array(ForthStack **darr, size_t start_index, void **arr, size_t arr_length)
 {
     struct forth_stack *dynarray = (struct forth_stack *) *darr;
     assert(dynarray != NULL && start_index <= dynarray->length);
@@ -155,7 +155,7 @@ bool ForthStack_insert_array(ForthStack **darr, size_t start_index, int64_t *arr
     return true;
 }
 
-bool ForthStack_append_array(ForthStack **darr, int64_t *arr, size_t arr_length)
+bool ForthStack_append_array(ForthStack **darr, void **arr, size_t arr_length)
 {
     struct forth_stack *dynarray = (struct forth_stack *) *darr;
     assert(dynarray != NULL);
@@ -203,7 +203,7 @@ void ForthStack_foreach(ForthStack *darr, ForthStack_foreach_fp fp)
 {
     struct forth_stack *dynarray = (struct forth_stack *) darr;
     assert(dynarray != NULL);  
-    int64_t *arr = dynarray->arr;
+    void **arr = dynarray->arr;
     for(size_t i = 0; i < dynarray->length; i++)
     {
         fp(arr[i]);
