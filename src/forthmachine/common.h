@@ -9,7 +9,6 @@
 #include "parser.h"
 #include "ReturnStack.h"
 
-
 struct forth_machine
 {
     Trie *words;
@@ -23,6 +22,9 @@ struct forth_machine
 
 enum error_code {
   EXECUTE_OK,
+  STACK_EMPTY,
+  UNDEFINED_WORD,
+  UNKNOWN_VARIABLE,
 };
 
 typedef enum error_code (*word_execution)(struct forth_machine *fmach);
