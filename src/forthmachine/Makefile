@@ -1,10 +1,16 @@
 CC = gcc
-CFLAGS = -std=c99 -pedantic -Werror -Wall -g -I../../test/ -I../forthmachine -I../forthstack -I../parser -I../trie
+CFLAGS = -std=c99 -pedantic -Werror -Wall -g\
+		 -I../../test/\
+		 -I../forthstack\
+		 -I../parser\
+		 -I../trie\
+		 -I../ReturnStack
+
 LDLIBS = -L../../test/  -ltest
 
 .PHONY: all clean test test-full test_utils
 
-all: nativewords.o
+all: nativewords.o forthmachine.o
 
 clean:
 	/bin/rm -rf *.o nativewords_tests
