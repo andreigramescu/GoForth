@@ -12,6 +12,8 @@
 
 static bool init_word_trie(Trie *words);
 
+static bool add_native_word(Trie *words, const char *word, word_execution native_funtion);
+
 struct forth_machine *forth_machine_init()
 {
     struct forth_machine *fmach = (struct forth_machine *) malloc(
@@ -115,21 +117,35 @@ enum error_code forth_machine_run_program(struct forth_machine *fmach)
 static bool init_word_trie(Trie *words)
 {
     bool add_success = true;
-    add_success = add_success && WORD_FUNCTION_ADDRESS(number);
-    add_success = add_success && WORD_FUNCTION_ADDRESS(dup);
-    add_success = add_success && WORD_FUNCTION_ADDRESS(drop);
-    add_success = add_success && WORD_FUNCTION_ADDRESS(plus);
-    add_success = add_success && WORD_FUNCTION_ADDRESS(minus);
-    add_success = add_success && WORD_FUNCTION_ADDRESS(star);
-    add_success = add_success && WORD_FUNCTION_ADDRESS(slash);
-    add_success = add_success && WORD_FUNCTION_ADDRESS(mod);
-    add_success = add_success && WORD_FUNCTION_ADDRESS(dot);
-    add_success = add_success && WORD_FUNCTION_ADDRESS(dots);
+    add_success = 
+        add_success && add_native_word(words, "dup", WORD_FUNCTION_ADDRESS(dup));
+    add_success = 
+        add_success && add_native_word(words, "drop", WORD_FUNCTION_ADDRESS(drop));
+    add_success = 
+        add_success && add_native_word(words, "+", WORD_FUNCTION_ADDRESS(plus));
+    add_success = 
+        add_success && add_native_word(words, "-", WORD_FUNCTION_ADDRESS(minus));
+    add_success = 
+        add_success && add_native_word(words, "*", WORD_FUNCTION_ADDRESS(star));
+    add_success = 
+        add_success && add_native_word(words, "/", WORD_FUNCTION_ADDRESS(slash));
+    add_success = 
+        add_success && add_native_word(words, "%", WORD_FUNCTION_ADDRESS(mod));
+    add_success = 
+        add_success && add_native_word(words, ".", WORD_FUNCTION_ADDRESS(dot));
+    add_success = 
+        add_success && add_native_word(words, "..", WORD_FUNCTION_ADDRESS(dots));
 
     return add_success;
 }
 
-static bool add_native_word(Trie *words, word_execution native_funtion)
+static bool add_native_word(Trie *words, const char *word, word_execution native_funtion)
 {
     struct word_data *data = (struct word_data *) malloc(sizeof(struct word_data));
+    if(data == NULL)
+    {
+        return false;
+    }
+    return Trie_add(words, word, (void *) data);
 }
+

@@ -10,7 +10,7 @@ LDLIBS = -L../../test/  -ltest
 
 .PHONY: all clean test test-full test_utils
 
-all: nativewords.o
+all: nativewords.o forthmachine.o
 
 clean:
 	/bin/rm -rf *.o nativewords_tests
