@@ -176,13 +176,15 @@ bool ForthStack_append_dynarray(ForthStack **dest, ForthStack *src)
     return ForthStack_append_array(dest, dynarray_src->arr, dynarray_src->length); 
 }
 
-void ForthStack_remove(ForthStack *darr, size_t index)
+void *ForthStack_remove(ForthStack *darr, size_t index)
 {
     struct forth_stack *dynarray = (struct forth_stack *) darr;
     assert(dynarray != NULL && index < dynarray->length);
+    void *value = dynarray->arr[index];
     for(size_t i = index; i < dynarray->length - 1; i++)
         dynarray->arr[i] = dynarray->arr[i + 1];
     dynarray->length--;    
+    return value;
 }
 
 void ForthStack_remove_slice(ForthStack *darr, size_t start, size_t end)

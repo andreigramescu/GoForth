@@ -182,6 +182,7 @@ enum error_code word_semi_colon(struct forth_machine *fmach) {
     if(rstack_length == 0) {
          return SEMI_COLON_BEFORE_DEFINITION; 
     }
-    fmach->program_counter = ReturnStack_get(fmach->return_stack, rstack_length - 1);  
+    fmach->program_counter = ReturnStack_remove(fmach->return_stack, rstack_length - 1);  
+    
     return EXECUTE_OK;
 }

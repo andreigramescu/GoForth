@@ -33,13 +33,13 @@ struct forth_machine *forth_machine_init()
     Trie *variables = Trie_create();
     if(variables == NULL)
     {
-        // Trie_destroy(words, free);
+        Trie_destroy(words, free);
         return NULL;
     }
     ForthStack *stack = ForthStack_create(INITIAL_STACK_SIZE);
     if(stack == NULL)
     {
-        // Trie_destroy(words, free);
+        Trie_destroy(words, free);
         // Trie_destroy(variables, free);
         return NULL;
     }
@@ -48,7 +48,7 @@ struct forth_machine *forth_machine_init()
     ReturnStack *return_stack = ReturnStack_create(INITIAL_STACK_SIZE);
     if(return_stack == NULL)
     {
-        // Trie_destroy(words, free);
+        Trie_destroy(words, free);
         // Trie_destroy(variables, free);
         ForthStack_destroy(stack);
         return NULL;
@@ -69,14 +69,15 @@ struct forth_machine *forth_machine_init()
 void forth_machine_deinit(struct forth_machine *fmach)
 {
     assert(fmach != NULL);
-    // Trie_destroy(fmach->words, free);
+    Trie_destroy(fmach->words, free);
     // Trie_destroy(fmach->variables, free);
     ForthStack_destroy(fmach->stack);
     ReturnStack_destroy(fmach->return_stack);
-    if(fmach->program_words == NULL)
+    if(fmach->program_words != NULL)
     { 
         destroy_words_array(fmach->program_words, fmach->n_program_words);
     }
+    free(fmach);
 }
 
 bool forth_machine_load_program(struct forth_machine *fmach, const char *program)

@@ -44,7 +44,7 @@ bool ForthStack_insert_dynarray(ForthStack **dest, size_t start_index, ForthStac
 // appends a dynarray -tests not done
 bool ForthStack_append_dynarray(ForthStack **dest, ForthStack *src);
 // removes an element from dynarray
-void ForthStack_remove(ForthStack *darr, size_t index);
+void *ForthStack_remove(ForthStack *darr, size_t index);
 // removes slice of array. it removes elements from start up to but not including end 
 void ForthStack_remove_slice(ForthStack *darr, size_t start, size_t end);
 // executes fp on each element up to the length of the dynarray

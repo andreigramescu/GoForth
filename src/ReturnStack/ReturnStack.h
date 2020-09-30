@@ -43,7 +43,7 @@ bool ReturnStack_insert_dynarray(ReturnStack **dest, size_t start_index, ReturnS
 // appends a dynarray -tests not done
 bool ReturnStack_append_dynarray(ReturnStack **dest, ReturnStack *src);
 // removes an element from dynarray
-void ReturnStack_remove(ReturnStack *darr, size_t index);
+size_t ReturnStack_remove(ReturnStack *darr, size_t index);
 // removes slice of array. it removes elements from start up to but not including end 
 void ReturnStack_remove_slice(ReturnStack *darr, size_t start, size_t end);
 // executes fp on each element up to the length of the dynarray

@@ -176,13 +176,15 @@ bool ReturnStack_append_dynarray(ReturnStack **dest, ReturnStack *src)
     return ReturnStack_append_array(dest, dynarray_src->arr, dynarray_src->length); 
 }
 
-void ReturnStack_remove(ReturnStack *darr, size_t index)
+size_t ReturnStack_remove(ReturnStack *darr, size_t index)
 {
     struct return_stack *dynarray = (struct return_stack *) darr;
     assert(dynarray != NULL && index < dynarray->length);
+    size_t value = dynarray->arr[index]; 
     for(size_t i = index; i < dynarray->length - 1; i++)
         dynarray->arr[i] = dynarray->arr[i + 1];
     dynarray->length--;    
+    return value; 
 }
 
 void ReturnStack_remove_slice(ReturnStack *darr, size_t start, size_t end)
