@@ -187,3 +187,25 @@ enum error_code word_semi_colon(struct forth_machine *fmach) {
     
     return EXECUTE_OK;
 }
+
+enum error_code word_variable(struct forth_machine *fmach) {
+    if (++fmach->program_counter >= fmach->n_words) {
+      return TOO_FEW_PARAMS; 
+    }
+    char *next_word = fmach->program_words[fmach->program_counter];  
+    void *dummy;
+    bool in_tree = Trie_get(fmach->words, next_word, &dummy);
+    if (in_tree) {
+      return WORD_PREV_DEFINED;
+    }
+    struct forth_variable *value = malloc(sizeof(struct forth_value));
+    if (value == NULL) {
+      return MEMORY_ERROR;
+    }
+    value->type = FORTH_VARIABLE_VALUE;
+    in_tree = Trie_add(fmach->words, next_word, value);
+    if (!in_tree) {
+      return VAR_PREV_DEFINED; 
+    }
+    return EXECUTE_OK;
+}

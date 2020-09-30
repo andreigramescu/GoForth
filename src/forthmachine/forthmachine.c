@@ -140,6 +140,8 @@ static bool init_word_trie(Trie *words)
         add_success && add_native_word(words, ":", WORD_FUNCTION_ADDRESS(colon));
     add_success = 
         add_success && add_native_word(words, ";", WORD_FUNCTION_ADDRESS(semi_colon));
+    add_success = 
+        add_success && add_native_word(words, "variable", WORD_FUNCTION_ADDRESS(variable));
     return add_success;
 }
 
