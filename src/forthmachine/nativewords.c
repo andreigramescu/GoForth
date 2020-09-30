@@ -209,3 +209,14 @@ enum error_code word_variable(struct forth_machine *fmach) {
     }
     return EXECUTE_OK;
 }
+
+enum error_code word_array(struct forth_machine *fmach) {
+    if(fmach->program_counter + 2 >= fmach->n_words) {
+        return TOO_FEW_PARAMS;
+    }  
+    char *name = fmach->program_words[fmach->program_counter + 1];
+    char *size = fmach->program_words[fmach->program_counter + 2];
+        
+}
+
+
