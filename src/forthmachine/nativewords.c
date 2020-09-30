@@ -165,7 +165,8 @@ enum error_code word_colon(struct forth_machine *fmach) {
                         fmach->program_words[fmach->program_counter], 
                         (void *) data);
     if(!add_success) {
-        return STACK_RESIZE_FAIL;
+        free(data);
+        return WORD_PREV_DEFINED;
     }
 
     do {
