@@ -3,16 +3,22 @@
 #include "forthmachine.h"
 
 
+char program1[] = ": dup 5 5 1 + .s ; dup dup dup";
+char program2[] = ": word 5 5 1 + .s ; word dup word";
+
+
 int main(void)
 {
-    char program[] = ": word 5 dup 1 + .s ; word word word word word word word";
     struct forth_machine *fmach = forth_machine_init();
-    bool load_success = forth_machine_load_program(fmach, program); 
+    bool load_success = forth_machine_load_program(fmach, program2); 
     if(!load_success)
     {
         puts("machine failed to load the program");
     }
-    forth_machine_run_program(fmach);
+    if(forth_machine_run_program(fmach) != EXECUTE_OK)
+    {
+        puts("failed execution");
+    }
     forth_machine_deinit(fmach);
     return 0;
 }

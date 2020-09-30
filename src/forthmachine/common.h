@@ -29,6 +29,7 @@ enum error_code {
   MALFORMED_VARIABLE_TRIE,
   WORD_DEFINITION_UNTERMINATED, 
   SEMI_COLON_BEFORE_DEFINITION,
+  WORD_PREV_DEFINED,
 };
 
 enum forth_variable_type {

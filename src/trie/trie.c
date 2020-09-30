@@ -100,6 +100,10 @@ bool Trie_add(Trie *trie, const char *word, void *value)
             curr = curr->children[index];           
         }
     }
+    if(curr->bitfield[0] & 1)
+    {
+        return false;
+    }
     curr->value = value;
     curr->bitfield[0] |= 1;
     return true;
