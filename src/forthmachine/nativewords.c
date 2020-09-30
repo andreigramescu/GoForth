@@ -189,7 +189,7 @@ enum error_code word_semi_colon(struct forth_machine *fmach) {
 }
 
 enum error_code word_variable(struct forth_machine *fmach) {
-    if (++fmach->program_counter >= fmach->n_words) {
+    if (++fmach->program_counter >= fmach->n_program_words) {
       return TOO_FEW_PARAMS; 
     }
     char *next_word = fmach->program_words[fmach->program_counter];  
@@ -198,7 +198,7 @@ enum error_code word_variable(struct forth_machine *fmach) {
     if (in_tree) {
       return WORD_PREV_DEFINED;
     }
-    struct forth_variable *value = malloc(sizeof(struct forth_value));
+    struct forth_variable *value = malloc(sizeof(struct forth_variable));
     if (value == NULL) {
       return MEMORY_ERROR;
     }

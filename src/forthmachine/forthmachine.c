@@ -14,6 +14,8 @@ static bool init_word_trie(Trie *words);
 
 static bool add_native_word(Trie *words, const char *word, word_execution native_function);
 
+static void free_forth_variable(void *ptr);
+
 struct forth_machine *forth_machine_init()
 {
     struct forth_machine *fmach = (struct forth_machine *) malloc(
@@ -40,7 +42,7 @@ struct forth_machine *forth_machine_init()
     if(stack == NULL)
     {
         Trie_destroy(words, free);
-        // Trie_destroy(variables, free);
+        Trie_destroy(variables, free_forth_variable);
         return NULL;
     }
     ForthStack_adjust_length(&stack, 0);
@@ -49,14 +51,13 @@ struct forth_machine *forth_machine_init()
     if(return_stack == NULL)
     {
         Trie_destroy(words, free);
-        // Trie_destroy(variables, free);
+        Trie_destroy(variables, free_forth_variable);
         ForthStack_destroy(stack);
         return NULL;
     }
     ReturnStack_adjust_length(&return_stack, 0);
 
     fmach->words = words;
-    // TODO: populate this trie  
     fmach->variables = variables;
     fmach->stack = stack;
     fmach->program_words = NULL;
@@ -70,7 +71,7 @@ void forth_machine_deinit(struct forth_machine *fmach)
 {
     assert(fmach != NULL);
     Trie_destroy(fmach->words, free);
-    // Trie_destroy(fmach->variables, free);
+    Trie_destroy(fmach->variables, free_forth_variable);
     ForthStack_destroy(fmach->stack);
     ReturnStack_destroy(fmach->return_stack);
     if(fmach->program_words != NULL)
@@ -155,5 +156,18 @@ static bool add_native_word(Trie *words, const char *word, word_execution native
     data->is_native = true;
     data->word_function.native_function = native_function;
     return Trie_add(words, word, (void *) data);
+}
+
+static void free_forth_variable(void *ptr)
+{
+    struct forth_variable *var = (struct forth_variable *) var;
+    if(var != NULL)
+    {
+        if(var->type == FORTH_VARIABLE_ARR)
+        {
+            free(var->data.arr); 
+        }
+        free(var);
+    }
 }
 
