@@ -8,12 +8,12 @@
 #define MAX_CHARS 10000
 
 char program1[] = ": dup 5 5 1 + .s ; dup dup dup";
-char program2[] = ": word 5 5 1 + .s ; word dup word";
-
+char program2[] = ": word 5 5 1 + .s ; word word";
+char program3[] = "variable ii ii .s";
 
 int main(void)
 {
-    puts("---GoForth---");
+/*    puts("---GoForth---");
     puts("Entering REPL mode...");
 
     struct forth_machine *fmach = forth_machine_init();
@@ -43,17 +43,19 @@ int main(void)
           puts("something went wrong while trying to run program");
       }    
     }
+*/
 
 
-   /* bool load_success = forth_machine_load_program(fmach, program2); */ 
-    /* if(!load_success) */
-    /* { */
-    /*     puts("machine failed to load the program"); */
-    /* } */
-    /* if(forth_machine_run_program(fmach) != EXECUTE_OK) */
-    /* { */
-    /*     puts("failed execution"); */
-    /* } */
-    /* forth_machine_deinit(fmach); */
+    struct forth_machine *fmach = forth_machine_init();
+    bool load_success = forth_machine_load_program(fmach, program3);
+    if(!load_success) 
+    { 
+        puts("machine failed to load the program"); 
+    } 
+    if(forth_machine_run_program(fmach) != EXECUTE_OK) 
+    { 
+        puts("failed execution"); 
+    }
+    forth_machine_deinit(fmach); 
     return 0;
 }

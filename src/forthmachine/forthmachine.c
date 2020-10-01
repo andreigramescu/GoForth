@@ -146,7 +146,9 @@ static bool init_word_trie(Trie *words)
         add_success && add_native_word(words, ";", WORD_FUNCTION_ADDRESS(semi_colon));
     add_success = 
         add_success && add_native_word(words, "variable", WORD_FUNCTION_ADDRESS(variable));
-    return add_success;
+     add_success = 
+        add_success && add_native_word(words, "array", WORD_FUNCTION_ADDRESS(array));
+     return add_success;
 }
 
 static bool add_native_word(Trie *words, const char *word, word_execution native_function)
