@@ -33,7 +33,7 @@ Trie *Trie_create(void)
         return NULL;
     }
     trie->bitfield[0] = trie->bitfield[1] = 0;
-    trie->value = 0;
+    trie->value = NULL;
     trie->children = NULL;
     return (Trie *) trie;
 }

@@ -9,11 +9,11 @@
 
 char program1[] = ": dup 5 5 1 + .s ; dup dup dup";
 char program2[] = ": word 5 5 1 + .s ; word word";
-
+char program3[] = "variable ii ii .s";
 
 int main(void)
 {
-    puts("---GoForth---");
+/*    puts("---GoForth---");
     puts("Entering REPL mode...");
 
     struct forth_machine *fmach = forth_machine_init();
@@ -43,11 +43,11 @@ int main(void)
           puts("something went wrong while trying to run program");
       }    
     }
+*/
 
 
-/*
     struct forth_machine *fmach = forth_machine_init();
-    bool load_success = forth_machine_load_program(fmach, program2);
+    bool load_success = forth_machine_load_program(fmach, program3);
     if(!load_success) 
     { 
         puts("machine failed to load the program"); 
@@ -56,6 +56,6 @@ int main(void)
     { 
         puts("failed execution"); 
     }
-    forth_machine_deinit(fmach); */
+    forth_machine_deinit(fmach); 
     return 0;
 }

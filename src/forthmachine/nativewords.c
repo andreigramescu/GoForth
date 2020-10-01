@@ -119,7 +119,6 @@ enum error_code word_dot_s(struct forth_machine *fmach) {
 }
 
 enum error_code word_not_in_trie(struct forth_machine *fmach) {
-  
   char *curr_word = get_curr_word(fmach);
   struct forth_variable *fdata;
   bool in_trie = Trie_get(fmach->variables, curr_word, (void **) &fdata);
@@ -203,7 +202,7 @@ enum error_code word_variable(struct forth_machine *fmach) {
       return MEMORY_ERROR;
     }
     value->type = FORTH_VARIABLE_VALUE;
-    in_tree = Trie_add(fmach->words, next_word, value);
+    in_tree = Trie_add(fmach->variables, next_word, value);
     if (!in_tree) {
       return VAR_PREV_DEFINED; 
     }
