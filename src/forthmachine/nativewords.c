@@ -17,7 +17,7 @@ enum error_code word_number(struct forth_machine *fmach) {
   int64_t val = strtoimax(get_curr_word(fmach), &endptr, 0);
   ForthStack_append(&(fmach->stack), (void *) val);
   return EXECUTE_OK;
- }
+}
 
 enum error_code word_dup(struct forth_machine *fmach) {
   if (ForthStack_length(fmach->stack) == 0) {
@@ -214,9 +214,31 @@ enum error_code word_array(struct forth_machine *fmach) {
     if(fmach->program_counter + 2 >= fmach->n_program_words) {
         return TOO_FEW_PARAMS;
     }  
-    //char *name = fmach->program_words[fmach->program_counter + 1];
-    //char *size = fmach->program_words[fmach->program_counter + 2];
-     
+    char *name = fmach->program_words[fmach->program_counter + 1];
+    char *str_size = fmach->program_words[fmach->program_counter + 2];
+    char *endptr;
+    size_t size = strtoumax(str_size, &endptr, 10);     
+    if(endptr != NULL) {
+        return NOT_A_UINT;
+    }   
+
+    void *dummy;
+    bool in_tree = Trie_get(fmach->words, name, &dummy);
+    if (in_tree) {
+      return WORD_PREV_DEFINED;
+    }
+
+    struct forth_variable *array = (struct forth_variable *) 
+                                   malloc(sizeof(struct forth_variable));
+    array->type = FORTH_VARIABLE_ARR;
+    array->data.arr = (int64_t *) malloc(sizeof(int64_t) * size);
+    bool add_success = Trie_add(fmach->variables, name, array);
+    if(!add_success) {
+        free(array->data.arr);
+        free(array);
+        return VAR_PREV_DEFINED; 
+    }
+    
     return EXECUTE_OK;   
 }
 

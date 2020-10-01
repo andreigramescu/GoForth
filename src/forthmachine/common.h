@@ -33,6 +33,8 @@ enum error_code {
   VAR_PREV_DEFINED,
   TOO_FEW_PARAMS,
   MEMORY_ERROR,
+  NOT_A_UINT,
+
 };
 
 enum forth_variable_type {
