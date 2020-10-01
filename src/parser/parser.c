@@ -57,6 +57,21 @@ char **make_words_array(const char *str, size_t n) {
   return res;
 }
 
+char **append_words_array(char **arr1, size_t n, char **arr2, size_t m, size_t *new_size) {
+  *new_size = n + m;
+  char **res = malloc(*new_size * sizeof(char *));
+  for (int i = 0; i < n; i++) {
+    res[i] = arr1[i];
+  }
+  for (int j = 0; j < m; j++) {
+    res[n + j] = arr2[j];
+  }
+
+  free(arr1);
+  free(arr2);
+  return res;
+}
+
 void destroy_words_array(char **words, size_t n) {
   assert(words);
   for (int i = 0; i < n; i++) {

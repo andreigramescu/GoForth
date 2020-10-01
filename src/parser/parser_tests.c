@@ -17,5 +17,28 @@ int main(void) {
   destroy_words_array(words, 10);
   destroy_words_array(words2, 8);
 
+  char *prog1 = "andrei liam lauren";
+  char *prog2 = "dup drop .s .";
+  size_t n1 = num_words(prog1); 
+  size_t n2 = num_words(prog2); 
+  char **wds1 = make_words_array(prog1, n1);
+  char **wds2 = make_words_array(prog2, n2);
+  for (int i = 0; i < n1; i++) {
+    puts(wds1[i]);
+  }
+  puts("---");
+  for (int j = 0; j < n2; j++) {
+    puts(wds2[j]);
+  }
+  size_t new_size;
+  char **new_wds = append_words_array(wds1, n1, wds2, n2, &new_size);
+  puts("---");
+  for (int j = 0; j < new_size; j++) {
+    puts(new_wds[j]);
+  }
+  printf("%lu", new_size); 
+
+  destroy_words_array(new_wds, new_size);
+
   return 0;
 }
