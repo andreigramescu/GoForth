@@ -43,6 +43,9 @@ int main(void)
           puts("something went wrong while trying to run program");
       }    
     }
+    free(input);
+    forth_machine_deinit(fmach);
+    return 0;
 
 
 /*

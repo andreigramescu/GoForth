@@ -25,7 +25,9 @@ size_t num_words(const char *str) {
 
 char **make_words_array(const char *str, size_t n) {
   // Caller is responsible for freeing the input String
-  assert(n != 0);
+  if (n == 0) {
+    return NULL;
+  }
 
   char *copy = strdup(str);
   if (!copy) {
