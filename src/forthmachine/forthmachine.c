@@ -27,11 +27,16 @@ struct forth_machine *forth_machine_init()
     }
     assert(fmach != NULL);
     Trie *words = Trie_create();
-    bool init_words_success = init_word_trie(words);
-    if(words == NULL || !init_words_success)
+    if(words == NULL)
     {
         return NULL;
     } 
+    bool init_words_success = init_word_trie(words);
+    if(!init_words_success) 
+    {
+        Trie_destroy(words, free);
+        return NULL;
+    }
     Trie *variables = Trie_create();
     if(variables == NULL)
     {
@@ -148,6 +153,9 @@ static bool init_word_trie(Trie *words)
         add_success && add_native_word(words, "variable", WORD_FUNCTION_ADDRESS(variable));
      add_success = 
         add_success && add_native_word(words, "array", WORD_FUNCTION_ADDRESS(array));
+     add_success = 
+        add_success && add_native_word(words, "!", WORD_FUNCTION_ADDRESS(exclamation));
+
      return add_success;
 }
 

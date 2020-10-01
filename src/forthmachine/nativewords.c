@@ -241,4 +241,13 @@ enum error_code word_array(struct forth_machine *fmach) {
     return EXECUTE_OK;   
 }
 
+enum error_code word_exclamation(struct forth_machine *fmach) {
+    if(ForthStack_length(fmach->stack) <= 1) {
+        return STACK_EMPTY; 
+    }
+    int64_t *address = (int64_t *) ForthStack_remove(fmach->stack, ForthStack_length(fmach->stack) - 1);
+    int64_t value = (int64_t) ForthStack_remove(fmach->stack, ForthStack_length(fmach->stack) - 1);
+    *address = value;
+    return EXECUTE_OK;
+}
 
