@@ -165,7 +165,7 @@ static bool add_native_word(Trie *words, const char *word, word_execution native
 
 static void free_forth_variable(void *ptr)
 {
-    struct forth_variable *var = (struct forth_variable *) var;
+    struct forth_variable *var = (struct forth_variable *) ptr;
     if(var != NULL)
     {
         if(var->type == FORTH_VARIABLE_ARR)

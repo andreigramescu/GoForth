@@ -13,7 +13,7 @@ char program3[] = "variable ii ii .s";
 
 int main(void)
 {
-    puts("---GoForth---");
+ /*   puts("---GoForth---");
     puts("Entering REPL mode...");
 
     struct forth_machine *fmach = forth_machine_init();
@@ -43,9 +43,8 @@ int main(void)
           puts("something went wrong while trying to run program");
       }    
     }
+*/
 
-
-/*
     struct forth_machine *fmach = forth_machine_init();
     bool load_success = forth_machine_load_program(fmach, program3);
     if(!load_success) 
@@ -57,5 +56,5 @@ int main(void)
         puts("failed execution"); 
     }
     forth_machine_deinit(fmach); 
-    return 0;*/
+    return 0;
 }
