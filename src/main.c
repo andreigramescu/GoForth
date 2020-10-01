@@ -46,19 +46,4 @@ int main(void)
     free(input);
     forth_machine_deinit(fmach);
     return 0;
-
-
-/*
-    struct forth_machine *fmach = forth_machine_init();
-    bool load_success = forth_machine_load_program(fmach, program3);
-    if(!load_success) 
-    { 
-        puts("machine failed to load the program"); 
-    } 
-    if(forth_machine_run_program(fmach) != EXECUTE_OK) 
-    { 
-        puts("failed execution"); 
-    }
-    forth_machine_deinit(fmach); 
-    return 0;*/
 }

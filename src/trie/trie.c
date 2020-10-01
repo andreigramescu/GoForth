@@ -80,10 +80,8 @@ bool Trie_add(Trie *trie, const char *word, void *value)
             {
                 free(child);
                 return false;
-            } else
-            {
-                curr->children = children;
-            }
+            } 
+            curr->children = children;
             /* rearange children */
             for(size_t i = nchildren; i > index; i--)
             {
