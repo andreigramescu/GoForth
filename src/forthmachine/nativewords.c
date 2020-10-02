@@ -110,6 +110,7 @@ enum error_code word_dot_s(struct forth_machine *fmach) {
   if (ForthStack_length(fmach->stack) == 0) {
     puts("Stack empty");
   } else {
+    printf("<%lu> ", ForthStack_length(fmach->stack));
     for (int i = 0; i < ForthStack_length(fmach->stack); i++) {
       printf("%ld ", (int64_t) ForthStack_get(fmach->stack, i));
     }
@@ -251,3 +252,23 @@ enum error_code word_exclamation(struct forth_machine *fmach) {
     return EXECUTE_OK;
 }
 
+enum error_code word_if(struct forth_machine *fmach) {
+  if (ForthStack_length(fmach->stack) == 0) {
+    return STACK_EMPTY;
+  }
+  if (!ForthStack_get(fmach->stack, ForthStack_length(fmach->stack) - 1)) {
+    for (size_t i = fmach->program_counter; i < fmach->n_program_words && strcmp(fmach->program_words[i], "then"); i++) {
+      fmach->program_counter++;
+    }
+  }
+  return EXECUTE_OK;
+}
+
+enum error_code word_then(struct forth_machine *fmach) {
+    for (size_t i = fmach->program_counter; i < fmach->n_program_words && strcmp(fmach->program_words[i], "else"); i++) {
+      fmach->program_counter++;
+    }
+    return EXECUTE_OK;
+}
+
+enum error_code word_else(struct forth_machine *fmach) {/*does nothing*/return EXECUTE_OK;}

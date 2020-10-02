@@ -155,6 +155,12 @@ static bool init_word_trie(Trie *words)
         add_success && add_native_word(words, "array", WORD_FUNCTION_ADDRESS(array));
      add_success = 
         add_success && add_native_word(words, "!", WORD_FUNCTION_ADDRESS(exclamation));
+     add_success = 
+        add_success && add_native_word(words, "if", WORD_FUNCTION_ADDRESS(if));
+     add_success = 
+        add_success && add_native_word(words, "then", WORD_FUNCTION_ADDRESS(then));
+     add_success = 
+        add_success && add_native_word(words, "else", WORD_FUNCTION_ADDRESS(else));
 
      return add_success;
 }
