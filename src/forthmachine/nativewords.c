@@ -275,3 +275,10 @@ enum error_code word_then(struct forth_machine *fmach) {
 }
 
 enum error_code word_else(struct forth_machine *fmach) {/*does nothing*/return EXECUTE_OK;}
+
+enum error_code word_fetch(struct forth_machine *fmach) {
+    void *ptr = ForthStack_remove(fmach->stack, ForthStack_length(fmach->stack) - 1);
+    printf("%ld\n", *((int64_t *) ptr));
+    return EXECUTE_OK;
+}
+

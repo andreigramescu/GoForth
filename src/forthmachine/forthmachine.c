@@ -164,6 +164,8 @@ static bool init_word_trie(Trie *words)
         add_success && add_native_word(words, "then", WORD_FUNCTION_ADDRESS(then));
      add_success = 
         add_success && add_native_word(words, "else", WORD_FUNCTION_ADDRESS(else));
+     add_success = 
+        add_success && add_native_word(words, "@", WORD_FUNCTION_ADDRESS(fetch));
 
      return add_success;
 }
