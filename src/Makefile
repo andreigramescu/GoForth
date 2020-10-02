@@ -27,20 +27,14 @@ main: main.o forthstack/forthstack.o parser/parser.o trie/trie.o ReturnStack/Ret
 
 main.o: forthmachine/forthmachine.h main.c
 
-forthstack/forthstack.o: forthstack/forthstack.h forthstack/forthstack.h
-	cd forthstack; make
+forthstack/forthstack.o: forthstack/forthstack.h forthstack/forthstack.c
 
 parser/parser.o: parser/parser.h parser/parser.c
-	cd parser; make
 
 trie/trie.o: trie/trie.h trie/trie.c
-	cd trie; make
 
 ReturnStack/ReturnStack.o: ReturnStack/ReturnStack.h ReturnStack/ReturnStack.c
-	cd ReturnStack; make
 
 forthmachine/forthmachine.o: forthmachine/forthmachine.h forthmachine/forthmachine.c
-	cd forthmachine; make
 
 forthmachine/nativewords.o: forthmachine/nativewords.h forthmachine/nativewords.c
-	cd forthmachine; make

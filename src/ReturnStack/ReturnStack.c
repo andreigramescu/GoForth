@@ -133,49 +133,6 @@ bool ReturnStack_adjust_length(ReturnStack **darr, size_t length)
     return true;
 }
 
-bool ReturnStack_insert_array(ReturnStack **darr, size_t start_index, size_t *arr, size_t arr_length)
-{
-    struct return_stack *dynarray = (struct return_stack *) *darr;
-    assert(dynarray != NULL && start_index <= dynarray->length);
-    size_t old_length = dynarray->length; 
-    if(!ReturnStack_adjust_length(darr, dynarray->length + arr_length))
-        return false;
-
-    dynarray = (struct return_stack *) *darr;
-    size_t i = old_length;
-    while(i > start_index)
-    {
-        i--;
-        dynarray->arr[i + arr_length] = dynarray->arr[i];
-    }        
-    // we know i = start_index
-    for(; i < start_index + arr_length; i++)
-        dynarray->arr[i] = arr[i - start_index];
-
-    return true;
-}
-
-bool ReturnStack_append_array(ReturnStack **darr, size_t *arr, size_t arr_length)
-{
-    struct return_stack *dynarray = (struct return_stack *) *darr;
-    assert(dynarray != NULL);
-    return ReturnStack_insert_array(darr, dynarray->length, arr, arr_length);     
-}
-
-bool ReturnStack_insert_dynarray(ReturnStack **dest, size_t start_index, ReturnStack *src)
-{
-    struct return_stack *dynarray_src = (struct return_stack *) src;
-    assert(dynarray_src != NULL);
-    return ReturnStack_insert_array(dest, start_index, dynarray_src->arr, dynarray_src->length); 
-}
-
-bool ReturnStack_append_dynarray(ReturnStack **dest, ReturnStack *src)
-{
-    struct return_stack *dynarray_src = (struct return_stack *) src;
-    assert(dynarray_src != NULL);
-    return ReturnStack_append_array(dest, dynarray_src->arr, dynarray_src->length); 
-}
-
 size_t ReturnStack_remove(ReturnStack *darr, size_t index)
 {
     struct return_stack *dynarray = (struct return_stack *) darr;
@@ -187,27 +144,3 @@ size_t ReturnStack_remove(ReturnStack *darr, size_t index)
     return value; 
 }
 
-void ReturnStack_remove_slice(ReturnStack *darr, size_t start, size_t end)
-{
-    struct return_stack *dynarray = (struct return_stack *) darr;
-    assert(dynarray != NULL && start < dynarray->length &&
-            end <= dynarray->length && end > start);
-    size_t slice_size = end - start;
-    size_t i;
-    for(i = start; i < start + (dynarray->length - end); i++)
-    {
-        dynarray->arr[i] = dynarray->arr[i + slice_size];
-    }
-    dynarray->length = i;
-}
-
-void ReturnStack_foreach(ReturnStack *darr, ReturnStack_foreach_fp fp)
-{
-    struct return_stack *dynarray = (struct return_stack *) darr;
-    assert(dynarray != NULL);  
-    size_t *arr = dynarray->arr;
-    for(size_t i = 0; i < dynarray->length; i++)
-    {
-        fp(arr[i]);
-    }
-}
