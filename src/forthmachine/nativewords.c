@@ -15,6 +15,9 @@ static char *get_curr_word(struct forth_machine *fmach) {
 enum error_code word_number(struct forth_machine *fmach) {
   char *endptr;
   int64_t val = strtoimax(get_curr_word(fmach), &endptr, 0);
+  if(*endptr != '\0') {
+    return UNDEFINED_WORD;
+  }
   ForthStack_append(&(fmach->stack), (void *) val);
   return EXECUTE_OK;
 }
@@ -218,7 +221,7 @@ enum error_code word_array(struct forth_machine *fmach) {
     char *str_size = fmach->program_words[fmach->program_counter + 2];
     char *endptr;
     size_t size = strtoumax(str_size, &endptr, 10);     
-    if(endptr != NULL) {
+    if(*endptr != '\0') {
         return NOT_A_UINT;
     }   
 

@@ -107,7 +107,8 @@ enum error_code forth_machine_run_program(struct forth_machine *fmach)
         bool in_trie = Trie_get(fmach->words, curr_word, (void **) &data);
         if(!in_trie) 
         {
-            word_not_in_trie(fmach);
+            enum error_code ecode = word_not_in_trie(fmach);
+            if(ecode != EXECUTE_OK) { return ecode; } 
         }// what if variable?
         else if(data->is_native)
         {
@@ -116,7 +117,9 @@ enum error_code forth_machine_run_program(struct forth_machine *fmach)
         }
         else
         {
-            ReturnStack_append(&fmach->return_stack, fmach->program_counter);
+            bool is_appended = 
+                ReturnStack_append(&fmach->return_stack, fmach->program_counter);
+            if(!is_appended) { return STACK_RESIZE_FAIL; }
             fmach->program_counter = data->word_function.program_counter;
         }
         fmach->program_counter++;
