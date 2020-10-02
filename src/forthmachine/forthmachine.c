@@ -89,7 +89,7 @@ void forth_machine_deinit(struct forth_machine *fmach)
 bool forth_machine_load_program(struct forth_machine *fmach, const char *program)
 {
     assert(fmach != NULL && program != NULL);  
-    assert(fmach->program_counter == fmach->n_program_words);
+    fmach->program_counter = fmach->n_program_words;
     size_t new_program_length = num_words(program);
     char **new_program_parsed = make_words_array(program, new_program_length); 
     size_t new_size;
