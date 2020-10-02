@@ -1,5 +1,7 @@
 A Forth interpreter and runtime written in C by Liam Gallagher and Andrei Gramescu.
 
+The Forth interpretter differs slightly from other dialects. Variable and array creation differs from others. 
+
 -------------------------------------------------------------------------------------------------
 MIT License
 
