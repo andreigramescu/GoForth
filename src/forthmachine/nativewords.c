@@ -282,3 +282,61 @@ enum error_code word_fetch(struct forth_machine *fmach) {
     return EXECUTE_OK;
 }
 
+enum error_code word_rot(struct forth_machine *fmach) {
+    size_t length = ForthStack_length(fmach->stack);
+    if (length < 3) {
+        return STACK_EMPTY;
+    }
+    void **arr = ForthStack_arr(fmach->stack);
+    void *hold = arr[length - 1];
+    arr[length - 1] = arr[length - 2];
+    arr[length - 2] = arr[length - 3];
+    arr[length - 3] = hold;
+    return EXECUTE_OK;
+}
+
+enum error_code word_swap(struct forth_machine *fmach) {
+    size_t length = ForthStack_length(fmach->stack);
+    if (length < 2) {
+        return STACK_EMPTY;
+    }
+    void **arr = ForthStack_arr(fmach->stack);
+    void *hold = arr[length - 2];
+    arr[length - 2] = arr[length - 1];
+    arr[length - 1] = hold; 
+    return EXECUTE_OK;
+}
+
+enum error_code word_less(struct forth_machine *fmach) {
+    size_t length = ForthStack_length(fmach->stack);
+    if (length < 2) {
+        return STACK_EMPTY;
+    }
+    int64_t first = (int64_t) ForthStack_remove(fmach->stack, length - 1);
+    int64_t second = (int64_t) ForthStack_remove(fmach->stack, length - 2);
+    ForthStack_append(&fmach->stack, (void *) (second < first ? (int64_t) -1 : (int64_t) 0));
+    return EXECUTE_OK;
+}
+
+enum error_code word_greater(struct forth_machine *fmach) {
+    size_t length = ForthStack_length(fmach->stack);
+    if (length < 2) {
+        return STACK_EMPTY;
+    }
+    int64_t first = (int64_t) ForthStack_remove(fmach->stack, length - 1);
+    int64_t second = (int64_t) ForthStack_remove(fmach->stack, length - 2);
+    ForthStack_append(&fmach->stack, (void *) (second > first ? (int64_t) -1 : (int64_t) 0));
+    return EXECUTE_OK;
+}
+
+enum error_code word_equal(struct forth_machine *fmach) {
+    size_t length = ForthStack_length(fmach->stack);
+    if (length < 2) {
+        return STACK_EMPTY;
+    }
+    int64_t first = (int64_t) ForthStack_remove(fmach->stack, length - 1);
+    int64_t second = (int64_t) ForthStack_remove(fmach->stack, length - 2);
+    ForthStack_append(&fmach->stack, (void *) (second == first ? (int64_t) -1 : (int64_t) 0));
+    return EXECUTE_OK;
+}
+

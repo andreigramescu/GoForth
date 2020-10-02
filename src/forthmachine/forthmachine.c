@@ -166,6 +166,16 @@ static bool init_word_trie(Trie *words)
         add_success && add_native_word(words, "else", WORD_FUNCTION_ADDRESS(else));
      add_success = 
         add_success && add_native_word(words, "@", WORD_FUNCTION_ADDRESS(fetch));
+     add_success = 
+        add_success && add_native_word(words, "swap", WORD_FUNCTION_ADDRESS(swap));
+     add_success = 
+        add_success && add_native_word(words, "rot", WORD_FUNCTION_ADDRESS(rot));
+     add_success = 
+        add_success && add_native_word(words, "<", WORD_FUNCTION_ADDRESS(less));
+     add_success = 
+        add_success && add_native_word(words, ">", WORD_FUNCTION_ADDRESS(greater));
+     add_success = 
+        add_success && add_native_word(words, "=", WORD_FUNCTION_ADDRESS(equal));
 
      return add_success;
 }

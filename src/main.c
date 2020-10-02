@@ -15,7 +15,7 @@ int main(void)
 {
     puts("---GoForth---");
     puts("Entering REPL mode...");
-
+   
     struct forth_machine *fmach = forth_machine_init();
 
     // for now
